@@ -5,6 +5,7 @@ import StartButton from "./StartButton";
 import { useState } from "react";
 import { createStage } from "../gameHelpers";
 import { checkCollision } from "../gameHelpers";
+import { useSwipeable } from 'react-swipeable';
 
 // styled components
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetrisWrapper";
@@ -43,9 +44,9 @@ const Tetris = () => {
 
     const drop = () => {
         // increase level when 10 rows are cleared
-        if(rows > (level+1)*10) {
+        if (rows > (level + 1) * 10) {
             setLevel(prev => prev + 1)
-            setDropTime(1000/(level+1) + 200)
+            setDropTime(1000 / (level + 1) + 200)
         }
         if (!checkCollision(player, stage, { x: 0, y: 1 })) {
             updatePlayerPos({ x: 0, y: 1, collided: false })
@@ -62,7 +63,7 @@ const Tetris = () => {
     const keyUp = ({ keyCode }) => {
         if (!gameOver) {
             if (keyCode === 40) {
-                setDropTime(1000/(level+1) + 200);
+                setDropTime(1000 / (level + 1) + 200);
             }
         }
     }
@@ -87,30 +88,56 @@ const Tetris = () => {
         }
     }
 
+    const handlers = useSwipeable({
+        onSwipedLeft: () => {
+            if (gameOver) return;
+            moveplayer(-1);
+        },
+        onSwipedRight: () => {
+            if (gameOver) return;
+            moveplayer(1);
+        },
+        onSwipedUp: () => {
+            if (gameOver) return;
+            rotatePlayer(stage, 1);
+        },
+        onSwipedDown: () => {
+            if (gameOver) return;
+            dropplayer();
+            if (!gameOver) {
+                setDropTime(1000 / (level + 1) + 200);
+            }
+        },
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+    });
+
     useInterval(() => {
         drop();
     }, dropTime);
 
     return (
-        <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
-            <StyledTetris>
-                <Stage stage={stage} />
-                <aside>
-                    {
-                        gameOver ? (
-                            <Display gameover={gameOver} text="Game Over" />
-                        ) : (
-                            <div>
-                                <Display text={`Score : ${score}`} />
-                                <Display text={`Rows : ${rows}`} />
-                                <Display text={`Level : ${level}`} />
-                            </div>
-                        )
-                    }
-                    <StartButton callback={startGame} />
-                </aside>
-            </StyledTetris>
-        </StyledTetrisWrapper>
+        <div {...handlers}>
+            <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
+                <StyledTetris>
+                    <Stage stage={stage} />
+                    <aside>
+                        {
+                            gameOver ? (
+                                <Display gameover={gameOver} text="Game Over" />
+                            ) : (
+                                <div>
+                                    <Display text={`Score : ${score}`} />
+                                    <Display text={`Rows : ${rows}`} />
+                                    <Display text={`Level : ${level}`} />
+                                </div>
+                            )
+                        }
+                        <StartButton callback={startGame} />
+                    </aside>
+                </StyledTetris>
+            </StyledTetrisWrapper>
+        </div>
     )
 }
 
