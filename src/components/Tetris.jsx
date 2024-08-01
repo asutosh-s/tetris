@@ -89,10 +89,20 @@ const Tetris = () => {
     }
 
     const handlers = useSwipeable({
-        onSwipedLeft: () => moveplayer(-1),
-        onSwipedRight: () => moveplayer(1),
-        onSwipedUp: () => rotatePlayer(stage, 1),
+        onSwipedLeft: () => {
+            if (gameOver) return;
+            moveplayer(-1);
+        },
+        onSwipedRight: () => {
+            if (gameOver) return;
+            moveplayer(1);
+        },
+        onSwipedUp: () => {
+            if (gameOver) return;
+            rotatePlayer(stage, 1);
+        },
         onSwipedDown: () => {
+            if (gameOver) return;
             dropplayer();
             if (!gameOver) {
                 setDropTime(1000 / (level + 1) + 200);
