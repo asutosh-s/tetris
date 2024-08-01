@@ -92,7 +92,12 @@ const Tetris = () => {
         onSwipedLeft: () => moveplayer(-1),
         onSwipedRight: () => moveplayer(1),
         onSwipedUp: () => rotatePlayer(stage, 1),
-        onSwipedDown: () => dropplayer(),
+        onSwipedDown: () => {
+            dropplayer();
+            if (!gameOver) {
+                setDropTime(1000 / (level + 1) + 200);
+            }
+        },
         preventScrollOnSwipe: true,
         trackMouse: true,
     });
