@@ -12,9 +12,9 @@ export const StyledStage = styled.div`
 
   /* Responsive adjustments */
   @media (max-width: 1200px) {
-    grid-template-rows: repeat(${props => props.height}, calc(45vw / ${props => props.width}));
+    grid-template-rows: repeat(${props => props.height}, calc(40vw / ${props => props.width}));
     grid-template-columns: repeat(${props => props.width}, 1fr);
-    max-width: 45vw;
+    max-width: 40vw;
   }
 
   @media (max-width: 900px) {

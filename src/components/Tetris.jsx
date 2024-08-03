@@ -119,20 +119,21 @@ const Tetris = () => {
     return (
         <div {...handlers}>
             <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
-                <StyledTetris className="flex-col items-center">
+                <StyledTetris className="flex-col items-center relative">
+                    <div className="flex flex-col md:flex-row">
+                        <Display text={`Level : ${level}`} />
+                        <Display text={`Score : ${score}`} />
+                        <Display text={`Rows : ${rows}`} />
+                    </div>
+                    <Stage className="sm:w-32 sm:h-100" stage={stage} />
                     {
                         gameOver ? (
-                            <Display gameover={gameOver} text="Game Over" />
-                        ) : (
-                            <div className="flex flex-col md:flex-row">
-                                <Display text={`Level : ${level}`} />
-                                <Display text={`Score : ${score}`} />
-                                <Display text={`Rows : ${rows}`} />
+                            <div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center" style={{ pointerEvents: 'none' }}>
+                                <Display gameover={gameOver ? "true" : "false"} text="Game Over" />
                             </div>
-                        )
+                        ) : (<></>)
                     }
-                    <Stage className="sm:w-32 sm:h-100" stage={stage} />
-                    <StartButton callback={startGame} />
+                    <StartButton className="relative" callback={startGame} />
                 </StyledTetris>
             </StyledTetrisWrapper>
         </div>

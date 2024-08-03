@@ -9,7 +9,8 @@ export const StyledDisplay = styled.div`
   margin: 10px 20px;
   padding: 10px;
   border: 4px solid #333;
-  min-height: 30px;
+  height: 30px;
+  height: 30px;
   width: 8vw; /* Width as a percentage of the viewport width */
   border-radius: 20px;
   color: ${props => (props.gameover ? 'red' : '#999')};
