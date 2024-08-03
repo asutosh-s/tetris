@@ -117,6 +117,7 @@ const Tetris = () => {
     }, dropTime);
 
     return (
+<<<<<<< Updated upstream
         <div {...handlers}>
             <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
                 <StyledTetris>
@@ -138,6 +139,25 @@ const Tetris = () => {
                 </StyledTetris>
             </StyledTetrisWrapper>
         </div>
+=======
+        <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
+            <StyledTetris className="flex-col items-center">
+                {
+                    gameOver ? (
+                        <Display gameover={gameOver} text="Game Over" />
+                    ) : (
+                        <div className="flex flex-col md:flex-row">
+                            <Display text={`Level : ${level}`} />
+                            <Display text={`Score : ${score}`} />
+                            <Display text={`Rows : ${rows}`} />
+                        </div>
+                    )
+                }
+                <Stage className="sm:w-32 sm:h-100" stage={stage} />
+                <StartButton callback={startGame} />
+            </StyledTetris>
+        </StyledTetrisWrapper>
+>>>>>>> Stashed changes
     )
 }
 
